@@ -1,0 +1,35 @@
+<svg>
+  <rect id="background">
+    <line class="divider" y1="0%" y2="0%"/>
+    <line class="divider" y1="10%" y2="10%"/>
+    <text id="clock" x="50%" y="40%" />
+    <line class="divider" y1="40%" y2="40%"/>
+
+    <line class="divider" y1="50%" y2="50%"/>
+    <line class="divider" y1="62%" y2="62%"/>
+    <circle cx="30%" cy="62%" r="5%" fill="lightblue" />
+    <text id="date" x="80%" y="62%+6"/>
+    <line class="divider" y1="75%" y2="75%"/>
+
+    <text id="heartrate" x="20%" y="86%"/>
+    <use id="stats-cycle" x="50%" y="75%" width="30%" height="15%" href="#cycleview">
+      <use href="#cycleview-item" class="cycle-item">
+        <text>12345</text>
+      </use>
+      <use href="#cycleview-item" class="cycle-item">
+        <text>1234</text>
+      </use>
+      <use href="#cycleview-item" class="cycle-item">
+        <text>3.14</text>
+      </use>
+      <use href="#cycleview-item" class="cycle-item">
+        <text>5</text>
+      </use>
+      <use href="#cycleview-item" class="cycle-item">
+        <text>100</text>
+      </use>
+    </use>
+    <line class="divider" y1="90%" y2="90%"/>
+    <line class="divider" y1="99%" y2="99%"/>
+  </rect>
+</svg>
