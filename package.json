@@ -6,7 +6,7 @@
 	"devDependencies": {
 		"@fitbit/sdk": "~2.0.2",
 		"@fitbit/sdk-cli": "^1.0.2",
-		"fitbit-sdk-types": "^1.0.4",
+		"fitbit-sdk-types": "^2.0.1",
 		"prettier": "^1.14.3",
 		"typescript": "^3.1.5"
 	},
@@ -28,6 +28,6 @@
 	"scripts": {
 		"build": "fitbit-build",
 		"debug": "fitbit",
-		"format": "prettier --write **/*.ts"
+		"format": "prettier --write **/*.ts **/*.tsx"
 	}
 }

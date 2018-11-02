@@ -3,37 +3,65 @@ import document from 'document'
 import { dateString, timeString } from '../common/dates'
 import { getHeartRate } from './heartrate'
 import { getActivity } from './activity'
-import { subscribe } from '../common/message_bus'
+import { messageBus } from '../common/message_bus'
 import { Weather } from '../common/weather'
+import { HeartRateSensorReading } from 'heart-rate'
+import { Activity } from 'user-activity'
 
-const clockEl = document.getElementById('clock')
+const timeEl = document.getElementById('clock')
 const dateEl = document.getElementById('date')
 const heartrateEl = document.getElementById('heartrate')
 
+const state: State = {
+	date: new Date()
+}
+render(state)
+
 clock.granularity = 'seconds'
 clock.ontick = evt => {
-	tick(evt.date)
-	updateMetrics()
+	state.date = evt.date
+	state.activity = getActivity()
+
+	const { heartRate, timestamp } = getHeartRate()
+	state.heartRate = heartRate
+	state.heartRateTimestamp = timestamp
+
+	render(state)
 }
 
-tick(new Date())
-updateMetrics()
-
-subscribe(msg => {
+messageBus.subscribe(msg => {
+	console.log('received message from companion', JSON.stringify(msg))
 	if (msg.type === 'weather') {
-		const data: Weather = msg.data
-		console.log('message from companion', JSON.stringify(data))
+		state.weather = msg.data
 	}
 })
 
-function tick(d: Date) {
-	clockEl.text = timeString(d)
-	dateEl.text = dateString(d)
+interface State {
+	date: Date
+
+	heartRate?: HeartRateSensorReading['heartRate']
+	heartRateTimestamp?: HeartRateSensorReading['timestamp']
+	lastHeartRateTimestamp?: HeartRateSensorReading['timestamp']
+
+	activity?: Activity
+	weather?: Weather
 }
 
-function updateMetrics() {
-	const hr = getHeartRate()
-	const activity = getActivity()
-	heartrateEl.text = String(hr || '--')
-	activity // TODO
+function render(state: State) {
+	timeEl.text = timeString(state.date)
+	dateEl.text = dateString(state.date)
+
+	// only display the heartrate sample if it is newer than the last reading
+	const cur = state.heartRateTimestamp || 0
+	const prev = state.lastHeartRateTimestamp || 0
+	let hrText = '--'
+	if (cur > prev && state.heartRate) {
+		hrText = String(state.heartRate)
+		state.lastHeartRateTimestamp = state.heartRateTimestamp
+	}
+	heartrateEl.text = hrText
+
+	if (state.weather) {
+		// TODO indication when the weather reading is old
+	}
 }

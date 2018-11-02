@@ -3,14 +3,15 @@ import { geolocation } from 'geolocation'
 
 export async function getLocation(): Promise<Location> {
 	return new Promise<Location>((resolve, reject) => {
-		geolocation.getCurrentPosition(pos => {
+		const posCb = (pos: Position) => {
 			const { latitude, longitude } = pos.coords
 			if (latitude == null || longitude == null) {
 				reject(new Error('Missing coordinates.'))
 				return
 			}
 			resolve({ latitude, longitude })
-		}, reject)
+		}
+		geolocation.getCurrentPosition(posCb, reject)
 	})
 }
 

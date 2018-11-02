@@ -1,11 +1,8 @@
 {
-  "extends": "./node_modules/@fitbit/sdk/sdk-tsconfig.json",
-  "include": [
-    "node_modules/fitbit-sdk-types/src",
-    "**/*.ts",
-    "**/*.tsx"
-  ],
-  "compilerOptions": {
-    "strict": true
-  }
+	"extends": "./node_modules/@fitbit/sdk/sdk-tsconfig.json",
+	"include": ["node_modules/fitbit-sdk-types", "**/*.ts", "**/*.tsx"],
+	"compilerOptions": {
+		"strict": true,
+		"noUnusedLocals": true
+	}
 }
